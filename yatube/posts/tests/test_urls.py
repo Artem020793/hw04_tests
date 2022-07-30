@@ -55,7 +55,7 @@ class PostsURLTest(TestCase):
         пользователя к созданию поста"""
         response = self.guest_client.get('/create/')
         self.assertEqual(response.status_code, 302)
-        
+
     def test_edit_url_unauthorized(self):
         """Проверка доступа для неавторизованного пользователя
          к редактированию поста"""
@@ -77,14 +77,18 @@ class PostsURLTest(TestCase):
         url_templates_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
-                    kwargs={'slug': self.group.slug}): 'posts/group_list.html',
+                    kwargs={'slug': self.group.slug}):
+                        'posts/group_list.html',
             reverse('posts:profile',
-                    kwargs={'username': self.user.username}): 'posts/profile.html',
+                    kwargs={'username': self.user.username}):
+                        'posts/profile.html',
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:post_detail',
-                    kwargs={'post_id': self.post.id}): 'posts/post_detail.html',
+                    kwargs={'post_id': self.post.id}):
+                        'posts/post_detail.html',
             reverse('posts:post_edit',
-                    kwargs={'post_id': self.post.id}): 'posts/create_post.html',
+                    kwargs={'post_id': self.post.id}):
+                        'posts/create_post.html',
         }
         for address, template in url_templates_names.items():
             with self.subTest(address=address):

@@ -36,17 +36,17 @@ class PostPagesTests(TestCase):
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
                     kwargs={'slug': PostPagesTests.group.slug}):
-                    'posts/group_list.html',
+                      'posts/group_list.html',
             reverse('posts:profile',
                     kwargs={'username': PostPagesTests.user}):
-                    'posts/profile.html',
-            reverse('posts:post_create'):'posts/create_post.html',
+                      'posts/profile.html',
+            reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:post_detail',
                     kwargs={'post_id': PostPagesTests.post.id}):
-                    'posts/post_detail.html',
+                      'posts/post_detail.html',
             reverse('posts:post_edit',
                     kwargs={'post_id': PostPagesTests.post.id}):
-                    'posts/create_post.html',
+                      'posts/create_post.html',
         }
 
         for reverse_name, template in templates_pages_names.items():
@@ -84,27 +84,27 @@ class PostPagesTests(TestCase):
 
     def test_post_detail_pages_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
-        reverse_page = reverse('posts:post_detail', 
+        reverse_page = reverse('posts:post_detail',
                                kwargs={'post_id': self.post.id})
         response = (self.authorized_client.get(reverse_page))
         self.assertEqual(response.context['user_post'].text, self.post.text)
         self.assertEqual(response.context['user_post'].pub_date, self.post.pub_date)
         self.assertEqual(response.context['user_post'].author, self.post.author)
         self.assertEqual(response.context['user_post'].group.id, self.post.group.id)         
-                       
-                
+
+
 class PaginatorViewsTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='Artem1993',
-                                              email='test@mail.ru',
-                                              password='test_pass',)
+                                            email='test@mail.ru',
+                                            password='test_pass',)
         cls.group = Group.objects.create(
             title=('Заголовок для тестовой группы'),
             slug='test_slug2',
             description='Тестовое описание')
-        
+
         for i in range(13):
             Post.objects.create(
                 text=f'Тестовый пост {i}',
@@ -122,5 +122,5 @@ class PaginatorViewsTest(TestCase):
         self.assertEqual(len(response.context['page_obj']), 10)
 
     def test_two_page_contains_ten_records(self):
-        response = self.client.get(reverse('posts:index') + '?page=2' )
+        response = self.client.get(reverse('posts:index') + '?page=2')
         self.assertEqual(len(response.context['page_obj']), 3)

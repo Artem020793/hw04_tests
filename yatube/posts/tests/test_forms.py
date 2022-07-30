@@ -45,7 +45,7 @@ class PostCreateFormTests(TestCase):
         )
         post_count = Post.objects.count()
         self.assertRedirects(response, reverse('posts:profile',
-                            kwargs={'username': self.user}))
+                             kwargs={'username': self.user}))
         self.assertEqual(post_count, count_posts + 1)
 
     def test_guest_new_post(self):
