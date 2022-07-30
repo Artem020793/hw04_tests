@@ -62,7 +62,7 @@ class StaticURLTests(TestCase):
             reverse('users:password_reset_success'): HTTPStatus.OK,
             reverse('users:password_reset_confirm',
                     kwargs={'uidb64': 'uidb64', 'token': 'token'}):
-                             HTTPStatus.OK,
+                        HTTPStatus.OK,
             reverse('users:password_reset_complete'): HTTPStatus.OK,
             reverse('users:logout'): HTTPStatus.OK,
         }
@@ -81,9 +81,9 @@ class StaticURLTests(TestCase):
             reverse('users:password_change'): HTTPStatus.OK,
             reverse('users:password_change_done'): HTTPStatus.OK,
             reverse('users:password_reset_success'): HTTPStatus.OK,
-            reverse('users:password_reset_confirm', kwargs={
-                  'uidb64': 'uidb64', 'token': 'token'}):
-                   HTTPStatus.OK,
+            reverse('users:password_reset_confirm',
+                    kwargs={'uidb64': 'uidb64', 'token': 'token'}):
+                        HTTPStatus.OK,
             reverse('users:password_reset_complete'): HTTPStatus.OK,
             reverse('users:logout'): HTTPStatus.OK,
         }

@@ -70,10 +70,8 @@ class PostPagesTests(TestCase):
 
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
-        response = self.authorized_client.get(reverse
-                                              ('posts:group_list',
-                                                kwargs={'slug':
-                                                        self.group.slug}))
+        response = self.authorized_client.get
+        (reverse('posts:group_list', kwargs={'slug': self.group.slug}))
         first_object = response.context['page_obj'][0]
         post_text = first_object.text
         post_author = first_object.author
