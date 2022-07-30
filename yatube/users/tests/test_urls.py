@@ -6,6 +6,7 @@ from http import HTTPStatus
 
 User = get_user_model()
 
+
 class StaticURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -29,18 +30,18 @@ class StaticURLTests(TestCase):
         templates_url_names = {
             reverse('users:signup'): 'users/signup.html',
             reverse('users:login'): 'users/login.html',
-            reverse('users:password_reset'): 
+            reverse('users:password_reset'):
                 'users/password_reset_form.html',
-            reverse('users:password_change'): 
+            reverse('users:password_change'):
                 'users/password_change_form.html',
-            reverse('users:password_change_done'): 
+            reverse('users:password_change_done'):
                 'users/password_change_done.html',
-            reverse('users:password_reset_success'): 
+            reverse('users:password_reset_success'):
                 'users/password_reset_done.html',
             reverse('users:password_reset_confirm', 
-                    kwargs={'uidb64':'uidb64', 'token':'token'}): 
+                    kwargs={'uidb64': 'uidb64', 'token': 'token'}): 
                 'users/password_reset_confirm.html',
-            reverse('users:password_reset_complete'): 
+            reverse('users:password_reset_complete'):
                 'users/password_reset_complete.html',
             reverse('users:logout'): 'users/logged_out.html',
         }

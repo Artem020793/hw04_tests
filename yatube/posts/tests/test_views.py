@@ -33,16 +33,20 @@ class PostPagesTests(TestCase):
         """URL-адрес использует соответствующий шаблон."""
         self.authorized_client.force_login(PostPagesTests.user)
         templates_pages_names = {
-            reverse('posts:index'):'posts/index.html',
-            reverse('posts:group_list', 
-                    kwargs={'slug': PostPagesTests.group.slug}):'posts/group_list.html',
+            reverse('posts:index'): 'posts/index.html',
+            reverse('posts:group_list',
+                    kwargs={'slug': PostPagesTests.group.slug}): 
+                    'posts/group_list.html',
             reverse('posts:profile', 
-                    kwargs={'username': PostPagesTests.user}):'posts/profile.html',
+                    kwargs={'username': PostPagesTests.user}): 
+                    'posts/profile.html',
             reverse('posts:post_create'):'posts/create_post.html',
             reverse('posts:post_detail', 
-                    kwargs={'post_id': PostPagesTests.post.id}):'posts/post_detail.html',
+                    kwargs={'post_id': PostPagesTests.post.id}):
+                    'posts/post_detail.html',
             reverse('posts:post_edit', 
-                    kwargs={'post_id': PostPagesTests.post.id}):'posts/create_post.html',
+                    kwargs={'post_id': PostPagesTests.post.id}): 
+                    'posts/create_post.html',
         }
 
         for reverse_name, template in templates_pages_names.items():
@@ -77,8 +81,6 @@ class PostPagesTests(TestCase):
         self.assertEqual(post_author, self.post.author)
         self.assertEqual(post_pub_date, self.post.pub_date)
         self.assertEqual(post_group_id, self.post.group.id)
-        
-
 
     def test_post_detail_pages_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""

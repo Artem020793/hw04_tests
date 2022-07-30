@@ -18,7 +18,7 @@ class PostCreateFormTests(TestCase):
             slug='test_slug',
             description='Тестовое описание'
         )
-        
+
         cls.post = Post.objects.create(
             text='текст',
             author=cls.user,
@@ -44,7 +44,8 @@ class PostCreateFormTests(TestCase):
             follow=True,
         )
         post_count = Post.objects.count()
-        self.assertRedirects(response, reverse('posts:profile', kwargs={'username':self.user}))
+        self.assertRedirects(response, reverse('posts:profile',
+        kwargs={'username':self.user}))
         self.assertEqual(post_count, count_posts + 1)
 
     def test_guest_new_post(self):
