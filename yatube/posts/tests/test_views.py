@@ -35,8 +35,8 @@ class PostPagesTests(TestCase):
         templates_pages_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
-                    kwargs={'slug': PostPagesTests.group.slug}):
-                                        'posts/group_list.html',
+                     kwargs={'slug': PostPagesTests.group.slug}):
+                             'posts/group_list.html',
             reverse('posts:profile',
                     kwargs={'username': PostPagesTests.user}):
                                          'posts/profile.html',
