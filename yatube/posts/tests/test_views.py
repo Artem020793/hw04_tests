@@ -36,17 +36,17 @@ class PostPagesTests(TestCase):
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
                     kwargs={'slug': PostPagesTests.group.slug}):
-                           'posts/group_list.html',
+                            'posts/group_list.html',
             reverse('posts:profile',
                     kwargs={'username': PostPagesTests.user}):
-                           'posts/profile.html',
+                            'posts/profile.html',
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:post_detail',
                     kwargs={'post_id': PostPagesTests.post.id}):
-                           'posts/post_detail.html',
+                            'posts/post_detail.html',
             reverse('posts:post_edit',
                     kwargs={'post_id': PostPagesTests.post.id}):
-                           'posts/create_post.html',
+                            'posts/create_post.html',
         }
 
         for reverse_name, template in templates_pages_names.items():
@@ -70,8 +70,9 @@ class PostPagesTests(TestCase):
 
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
-        response = self.authorized_client.get(reverse('posts:group_list', 
-                                                      kwargs={'slug': self.group.slug}))
+        response = self.authorized_client.get(reverse('posts:group_list',
+                                                      kwargs={'slug':
+                                                              self.group.slug}))
         first_object = response.context['page_obj'][0]
         post_text = first_object.text
         post_author = first_object.author
