@@ -53,13 +53,13 @@ class PostPagesTests(TestCase):
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
-                
+
     def test_form_post_create_and_edit_show_correct_context(self):
         """Формы на страницах post_create и post_edit корректны"""
         context = {
             reverse('posts:post_create'),
             reverse('posts:post_edit', kwargs={'post_id': self.post.id})
-        }        
+        }
         for reverse_page in context:
             with self.subTest(reverse_page=reverse_page):
                 response = self.authorized_client.get(reverse_page)
@@ -84,7 +84,8 @@ class PostPagesTests(TestCase):
 
     def test_post_detail_pages_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
-        reverse_page = reverse('posts:post_detail', kwargs={'post_id': self.post.id})
+        reverse_page = reverse('posts:post_detail', 
+                               kwargs={'post_id': self.post.id})
         response = (self.authorized_client.get(reverse_page))
         self.assertEqual(response.context['user_post'].text, self.post.text)
         self.assertEqual(response.context['user_post'].pub_date, self.post.pub_date)
