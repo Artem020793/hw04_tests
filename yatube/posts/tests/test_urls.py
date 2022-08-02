@@ -33,8 +33,10 @@ class PostsURLTest(TestCase):
         templates_status_chek = {
             reverse('posts:index'): 200,
             reverse('posts:group_list', kwargs={'slug': self.group.slug}): 200,
-            reverse('posts:profile', kwargs={'username': self.user.username}): 200,
-            reverse('posts:post_detail', kwargs={'post_id': self.post.id}): 200,
+            reverse('posts:profile', kwargs={'username':
+                                         self.user.username}): 200,
+            reverse('posts:post_detail', kwargs={'post_id':
+                                             self.post.id}): 200,
             reverse('posts:post_create'): 302,
             reverse('posts:post_edit', kwargs={'post_id': self.post.id}): 302,
         }

@@ -69,28 +69,28 @@ class PostCreateFormTests(TestCase):
             author=self.test_user,
             group=self.group,
         )
-        #Заполняем форму для редактирования
+        '#Заполняем форму для редактирования'
         form_data = {
             'text': 'Редактирование',
             'group': self.group.id,
         }
-        #Подчитываем количество постов
+        '#Подчитываем количество постов'
         posts_count = Post.objects.count()
-        #Отправляем пост запрос на редактирования поста
+        '#Отправляем пост запрос на редактирования поста'
         response = self.authorized_client.post(
             reverse('posts:post_edit', kwargs={'post_id': post.id}),
             data=form_data,
             follow=True
         )
-        #Объявляем адрес редиректа
+        '#Объявляем адрес редиректа'
         redirect = reverse(
             'posts:post_detail',
             kwargs={'post_id': post.id})
-        #Проверяем редиректность
+        '#Проверяем редиректность'
         self.assertRedirects(response, redirect)
-        #Проверяем не создался ли новый пост
+        '#Проверяем не создался ли новый пост'
         self.assertEqual(Post.objects.count(), posts_count)
-        #есть ли в списке постов пост с отредактированными данными
+        '#есть ли в списке постов пост с отредактированными данными'
         self.assertTrue(
             Post.objects.filter(
                 text=form_data['text'],

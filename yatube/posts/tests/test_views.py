@@ -84,7 +84,7 @@ class PostPagesTests(TestCase):
                 self.assertIsInstance(form_field_text, forms.fields.CharField)
                 form_field_group = response.context['form'].fields['group']
                 self.assertIsInstance(form_field_group, forms.fields.ChoiceField)
-            
+
 class PaginatorViewsTest(TestCase):
     @classmethod
     def setUpClass(cls):
