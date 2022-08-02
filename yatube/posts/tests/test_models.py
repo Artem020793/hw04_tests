@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from ..models import Group, Post
+from yatube.settings import COUNT_WORD
 
 User = get_user_model()
 
@@ -23,13 +24,13 @@ class PostModelTest(TestCase):
 
     def test_models_have_correct_object_names(self):
         """Проверяем, что у моделей корректно работает __str__."""
-        act = PostModelTest.post
+        post = PostModelTest.post
         self.assertEqual(
-            str(act), act.text[:15],
+            str(post), post.text[:COUNT_WORD],
             'Метод __str__ модели Post работает не правильно'
         )
-        act = PostModelTest.group
+        group = PostModelTest.group
         self.assertEqual(
-            str(act), act.title,
+            str(group), group.title,
             'Метод __str__ модели Post работает не правильно'
         )

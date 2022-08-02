@@ -28,21 +28,20 @@ class PostsURLTest(TestCase):
         self.authorized_client_2 = Client()
         self.authorized_client.force_login(self.user)
 
-    def test_url_uses_correct_index(self):
-        response = self.guest_client.get('/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_url_uses_correct_group(self):
-        response = self.guest_client.get(f'/group/{self.group.slug}/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_url_uses_correct_profile(self):
-        response = self.guest_client.get(f'/profile/{self.user}/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_url_authorized_post_id(self):
-        response = self.guest_client.get(f'/posts/{self.post.id}/')
-        self.assertEqual(response.status_code, 200)
+    def test_urls_status_guest(self):
+        """Проверка статуса на странице для гостя"""
+        templates_status_chek = {
+            reverse('posts:index'): 200,
+            reverse('posts:group_list', kwargs={'slug': self.group.slug}): 200,
+            reverse('posts:profile', kwargs={'username': self.user.username}): 200,
+            reverse('posts:post_detail', kwargs={'post_id': self.post.id}): 200,
+            reverse('posts:post_create'): 302,
+            reverse('posts:post_edit', kwargs={'post_id': self.post.id}): 302,
+        }
+        for url, status in templates_status_chek.items():
+            with self.subTest(url=url):
+                response = self.guest_client.get(url)
+                self.assertEqual(response.status_code, status)
 
     def test_create_url_authorized(self):
         """Проверка доступа для авторизованного
@@ -50,30 +49,7 @@ class PostsURLTest(TestCase):
         response = self.authorized_client.get('/create/')
         self.assertEqual(response.status_code, 200)
 
-    def test_create_url_unauthorized(self):
-        """Проверка доступа для неавторизованного
-        пользователя к созданию поста"""
-        response = self.guest_client.get('/create/')
-        self.assertEqual(response.status_code, 302)
-
-    def test_edit_url_unauthorized(self):
-        """Проверка доступа для неавторизованного пользователя
-         к редактированию поста"""
-        response = self.guest_client.get(f'/posts/{self.post.id}/edit/')
-        self.assertEqual(response.status_code, 302)
-
-    def test_edit_url_not_by_author(self):
-        """Проверка доступа для не автора к редактированию поста"""
-        response = self.authorized_client_2.get(
-            f'/posts/{self.post.id}/edit/')
-        self.assertEqual(response.status_code, 302)
-
-    def test_unexisting_url(self):
-        """Проверка несуществующей страницы"""
-        response = self.guest_client.get('/unexisting/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_home_url_uses_correct_template(self):
+    def test_url_uses_correct_template(self):
         url_templates_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',
