@@ -65,14 +65,17 @@ class PostPagesTests(TestCase):
 
     def test_profile_page_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
-        response = self.guest_client.get(reverse('posts:profile', kwargs={'username': self.user.username}))
+        response = self.guest_client.get(reverse('posts:profile',
+                                                 kwargs={'username':
+                                                     self.user.username}))
         test_post = response.context['page_obj'][0]
         self.assertEqual(test_post.author, self.post.author)
         self.assertEqual(test_post.text, self.post.text)
         self.assertEqual(test_post.group, self.post.group)
 
     def test_post_create_and_edit_page_correct_context_form(self):
-        """Шаблон редактирования/создания поста сформирован с правильным контекстом."""
+        """Шаблон редактирования/создания поста 
+        сформирован с правильным контекстом."""
         url_tests = {
             reverse('posts:post_create'),
             reverse('posts:post_edit', kwargs={'post_id': self.post.id})
@@ -83,7 +86,8 @@ class PostPagesTests(TestCase):
                 form_field_text = response.context['form'].fields['text']
                 self.assertIsInstance(form_field_text, forms.fields.CharField)
                 form_field_group = response.context['form'].fields['group']
-                self.assertIsInstance(form_field_group, forms.fields.ChoiceField)
+                self.assertIsInstance(form_field_group,
+                                      forms.fields.ChoiceField)
 
 class PaginatorViewsTest(TestCase):
     @classmethod
