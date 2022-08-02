@@ -63,7 +63,7 @@ class PostCreateFormTests(TestCase):
 
     def test_post_edit_authorized_user(self):
         """Авторизованный пользователь. Редактирование поста."""
-        #Создаем экземпляр поста перед редактированием
+        '#Создаем экземпляр поста перед редактированием'
         post = Post.objects.create(
             text='Проверка редактирования.',
             author=self.test_user,
@@ -74,9 +74,9 @@ class PostCreateFormTests(TestCase):
             'text': 'Редактирование',
             'group': self.group.id,
         }
-        #Подчитываем количество постов 
+        #Подчитываем количество постов
         posts_count = Post.objects.count()
-        #Отправляем пост запрос на редактирования поста 
+        #Отправляем пост запрос на редактирования поста
         response = self.authorized_client.post(
             reverse('posts:post_edit', kwargs={'post_id': post.id}),
             data=form_data,
@@ -88,7 +88,7 @@ class PostCreateFormTests(TestCase):
             kwargs={'post_id': post.id})
         #Проверяем редиректность
         self.assertRedirects(response, redirect)
-        #Проверяем не создался ли новый пост 
+        #Проверяем не создался ли новый пост
         self.assertEqual(Post.objects.count(), posts_count)
         #есть ли в списке постов пост с отредактированными данными
         self.assertTrue(
