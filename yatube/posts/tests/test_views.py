@@ -33,8 +33,8 @@ class PostPagesTests(TestCase):
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
         response = self.guest_client.get(reverse('posts:group_list',
-                                              kwargs={'slug':
-                                                      self.group.slug}))
+                                                 kwargs={'slug':
+                                                         self.group.slug}))
         self.assertIn('page_obj', response.context)
         self.assertIn('group', response.context)
         post_test = response.context['page_obj'][0]
@@ -67,14 +67,14 @@ class PostPagesTests(TestCase):
         """Шаблон profile сформирован с правильным контекстом."""
         response = self.guest_client.get(reverse('posts:profile',
                                                  kwargs={'username':
-                                                     self.user.username}))
+                                                         self.user.username}))
         test_post = response.context['page_obj'][0]
         self.assertEqual(test_post.author, self.post.author)
         self.assertEqual(test_post.text, self.post.text)
         self.assertEqual(test_post.group, self.post.group)
 
     def test_post_create_and_edit_page_correct_context_form(self):
-        """Шаблон редактирования/создания поста 
+        """Шаблон редактирования/создания поста
         сформирован с правильным контекстом."""
         url_tests = {
             reverse('posts:post_create'),
