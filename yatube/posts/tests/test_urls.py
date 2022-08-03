@@ -52,6 +52,7 @@ class PostsURLTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_url_uses_correct_template(self):
+        """Проверка использования правильных шаблонов для url-адресов"""
         url_templates_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list',

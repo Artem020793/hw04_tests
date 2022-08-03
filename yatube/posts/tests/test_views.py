@@ -114,6 +114,7 @@ class PaginatorViewsTest(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_pagination(self):
+        """Тестирование Paginatora"""
         tested_urls_paginations = {
             reverse('posts:index'),
             reverse('posts:group_list',
