@@ -45,7 +45,6 @@ class PostPagesTests(TestCase):
         self.assertIn('group', response.context)
         self.assertEqual(first_object, Post.objects.first())
         self.assertEqual(second_object, Group.objects.first())
-        
 
     def test_post_detail_pages_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
@@ -115,8 +114,8 @@ class PaginatorViewsTest(TestCase):
         for i in range(cls.post_test_count):
             Post.objects.bulk_create([
                 Post(text=fake,
-                    author=cls.user,
-                    group=cls.group)
+                     author=cls.user,
+                     group=cls.group)
             ])
 
     def setUp(self):
@@ -140,7 +139,9 @@ class PaginatorViewsTest(TestCase):
             with self.subTest(url=url):
                 response_one_page = self.client.get(url)
                 self.assertEqual(
-                    len(response_one_page.context['page_obj']), settings.POSTS_CHIK)
+                    len(response_one_page.context['page_obj']),
+                        settings.POSTS_CHIK)
                 response_two_page = self.client.get(url + '?page=2')
                 self.assertEqual(
-                    len(response_two_page.context['page_obj']), count_post_two_page)
+                    len(response_two_page.context['page_obj']),
+                        count_post_two_page)

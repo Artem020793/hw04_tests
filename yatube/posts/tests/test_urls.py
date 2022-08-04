@@ -36,11 +36,15 @@ class PostsURLTest(TestCase):
         """Проверка статуса на странице для гостя"""
         templates_status_chek = {
             reverse('posts:index'): 200,
-            reverse('posts:group_list', kwargs={'slug': self.group.slug}): HTTPStatus.OK,
+            reverse('posts:group_list', kwargs={'slug':
+                                                self.group.slug}):
+                                                    HTTPStatus.OK,
             reverse('posts:profile', kwargs={'username':
-                                             self.user.username}): HTTPStatus.OK,
+                                             self.user.username}):
+                                                 HTTPStatus.OK,
             reverse('posts:post_detail', kwargs={'post_id':
-                                                 self.post.id}): HTTPStatus.OK,
+                                                 self.post.id}):
+                                                    HTTPStatus.OK,
         }
         for url, status in templates_status_chek.items():
             with self.subTest(url=url):
@@ -80,7 +84,7 @@ class PostsURLTest(TestCase):
         """Страница create используют соответствующий шаблон."""
         response = self.authorized_client.get(reverse('posts:post_create'))
         self.assertTemplateUsed(response, 'posts/create_post.html')
-    
+
     def test_create_url_authorized(self):
         """Проверка доступа для авторизованного
         пользователя к созданию/редактированию поста"""

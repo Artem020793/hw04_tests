@@ -57,7 +57,7 @@ class PostCreateFormTests(TestCase):
             form_data = {
                 'text': fake.text(),
                 'group': self.group.id,
-                }
+            }
             post_count = Post.objects.count()
             response = self.client.post(
                 reverse('posts:post_create'),
