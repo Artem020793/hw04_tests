@@ -140,8 +140,8 @@ class PaginatorViewsTest(TestCase):
                 response_one_page = self.client.get(url)
                 self.assertEqual(
                     len(response_one_page.context['page_obj']),
-                        settings.POSTS_CHIK)
+                         settings.POSTS_CHIK)
                 response_two_page = self.client.get(url + '?page=2')
                 self.assertEqual(
                     len(response_two_page.context['page_obj']),
-                        count_post_two_page)
+                         count_post_two_page)

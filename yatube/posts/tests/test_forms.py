@@ -35,8 +35,8 @@ class PostCreateFormTests(TestCase):
         """Тестирование создания Post"""
         post_count = Post.objects.count()
         form_data = {
-        'text': fake.text(),
-        'group': self.group.id,
+            'text': fake.text(),
+            'group': self.group.id,
         }
         response = self.authorized_client.post(
             reverse('posts:post_create'),
@@ -45,7 +45,7 @@ class PostCreateFormTests(TestCase):
         )
         new_post = Post.objects.first()
         self.assertRedirects(response, reverse(
-        'posts:profile', kwargs={'username': new_post.author}))
+            'posts:profile', kwargs={'username': new_post.author}))
         self.assertEqual(Post.objects.count(), post_count + 1)
         self.assertEqual(form_data['text'], new_post.text)
         self.assertEqual(self.test_user, new_post.author)

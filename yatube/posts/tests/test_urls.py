@@ -60,9 +60,11 @@ class PostsURLTest(TestCase):
         """Авторизированного пользователя со страницы /edit/
          переадресовывает на страницу просмотра поста"""
         response = self.authorized_client_2.get(reverse('posts:post_edit',
-                                                      kwargs={'post_id': self.post.id}))
+                                                        kwargs={'post_id':
+                                                            self.post.id}))
         self.assertRedirects(response, reverse('posts:post_detail',
-                                               kwargs={'post_id': self.post.id}))
+                                               kwargs={'post_id':
+                                                   self.post.id}))
 
     def test_pages_available_edit_author(self):
         """Автору поста доступна страница /edit/"""
