@@ -1,9 +1,11 @@
+from faker import Faker
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 
 from posts.models import Group, Post
 
+fake = Faker()
 User = get_user_model()
 
 
@@ -19,7 +21,7 @@ class PostCreateFormTests(TestCase):
         cls.test_user = User.objects.create_user(username='test_user')
 
         cls.post = Post.objects.create(
-            text='Текст',
+            text=fake.text(),
             author=cls.test_user,
             group=cls.group,
         )
@@ -31,64 +33,64 @@ class PostCreateFormTests(TestCase):
 
     def test_post(self):
         """Тестирование создания Post"""
-        count_posts = Post.objects.count()
+        post_count = Post.objects.count()
         form_data = {
-            'text': 'Данные из формы',
-            'group': self.group.id
+        'text': fake.text(),
+        'group': self.group.id,
         }
         response = self.authorized_client.post(
             reverse('posts:post_create'),
             data=form_data,
-            follow=True,
+            follow=True
         )
-        post_count = Post.objects.count()
-        self.assertRedirects(response, reverse('posts:profile',
-                             kwargs={'username': self.test_user}))
-        self.assertEqual(post_count, count_posts + 1)
+        new_post = Post.objects.first()
+        self.assertRedirects(response, reverse(
+        'posts:profile', kwargs={'username': new_post.author}))
+        self.assertEqual(Post.objects.count(), post_count + 1)
+        self.assertEqual(form_data['text'], new_post.text)
+        self.assertEqual(self.test_user, new_post.author)
+        self.assertEqual(self.group, new_post.group)
 
-    def test_guest_new_post(self):
-        """Неавторизоанный не может создавать посты"""
-        form_data = {
-            'text': 'Пост от неавторизованного пользователя',
-        }
-        self.guest_client.post(
-            reverse('posts:post_create'),
-            data=form_data,
-            follow=True,
-        )
-        self.assertFalse(Post.objects.filter(
-            text='Пост от неавторизованного пользователя').exists())
+        def test_not_create_post_no_authorized_client(self):
+            """Неавторизованный клиент, не может создать
+            пост и переадресовывается на страницу логина"""
+            form_data = {
+                'text': fake.text(),
+                'group': self.group.id,
+                }
+            post_count = Post.objects.count()
+            response = self.client.post(
+                reverse('posts:post_create'),
+                data=form_data,
+                follow=True
+            )
+            login_url = reverse('users:login')
+            create_url = reverse('posts:post_create')
+            self.assertRedirects(response, f'{login_url}?next={create_url}')
+            self.assertEqual(post_count, Post.objects.count())
 
     def test_post_edit_authorized_user(self):
         """Авторизованный пользователь. Редактирование поста."""
-        '#Создаем экземпляр поста перед редактированием'
         post = Post.objects.create(
-            text='Проверка редактирования.',
+            text=fake.text(),
             author=self.test_user,
             group=self.group,
         )
-        '#Заполняем форму для редактирования'
         form_data = {
-            'text': 'Редактирование',
+            'text': fake.text(),
             'group': self.group.id,
         }
-        '#Подчитываем количество постов'
         posts_count = Post.objects.count()
-        '#Отправляем пост запрос на редактирования поста'
         response = self.authorized_client.post(
             reverse('posts:post_edit', kwargs={'post_id': post.id}),
             data=form_data,
             follow=True
         )
-        '#Объявляем адрес редиректа'
         redirect = reverse(
             'posts:post_detail',
             kwargs={'post_id': post.id})
-        '#Проверяем редиректность'
         self.assertRedirects(response, redirect)
-        '#Проверяем не создался ли новый пост'
         self.assertEqual(Post.objects.count(), posts_count)
-        '#есть ли в списке постов пост с отредактированными данными'
         self.assertTrue(
             Post.objects.filter(
                 text=form_data['text'],
